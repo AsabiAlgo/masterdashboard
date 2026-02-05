@@ -1,0 +1,62 @@
+# Base stage
+FROM node:20-alpine AS base
+RUN corepack enable && corepack prepare pnpm@8.14.0 --activate
+RUN apk add --no-cache wget
+WORKDIR /app
+
+# Dependencies stage
+FROM base AS deps
+COPY package.json pnpm-workspace.yaml pnpm-lock.yaml ./
+COPY apps/server/package.json ./apps/server/
+COPY packages/shared/package.json ./packages/shared/
+RUN pnpm install --frozen-lockfile
+
+# Development stage
+FROM base AS development
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/server/node_modules ./apps/server/node_modules
+COPY --from=deps /app/packages/shared/node_modules ./packages/shared/node_modules
+COPY . .
+WORKDIR /app/apps/server
+EXPOSE 4000
+CMD ["pnpm", "dev"]
+
+# Build stage
+FROM base AS builder
+COPY --from=deps /app/node_modules ./node_modules
+COPY --from=deps /app/apps/server/node_modules ./apps/server/node_modules
+COPY --from=deps /app/packages/shared/node_modules ./packages/shared/node_modules
+COPY . .
+
+# Build shared package first
+WORKDIR /app/packages/shared
+RUN pnpm build
+
+# Build server
+WORKDIR /app/apps/server
+RUN pnpm build
+
+# Prune dev dependencies
+WORKDIR /app
+RUN pnpm prune --prod
+
+# Production stage
+FROM node:20-alpine AS production
+RUN apk add --no-cache dumb-init wget
+
+WORKDIR /app
+ENV NODE_ENV=production
+
+# Copy built artifacts
+COPY --from=builder /app/apps/server/dist ./dist
+COPY --from=builder /app/apps/server/package.json ./
+COPY --from=builder /app/node_modules ./node_modules
+COPY --from=builder /app/apps/server/node_modules ./apps/server/node_modules
+
+# Security: Run as non-root user
+USER node
+
+EXPOSE 4000
+
+# Use dumb-init to handle PID 1 properly
+CMD ["dumb-init", "node", "dist/index.js"]

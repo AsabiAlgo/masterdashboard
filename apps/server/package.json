@@ -1,0 +1,48 @@
+{
+  "name": "@masterdashboard/server",
+  "version": "0.1.0",
+  "private": true,
+  "license": "MIT",
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --clear-screen=false src/index.ts",
+    "build": "tsup src/index.ts --format esm --dts",
+    "start": "node dist/index.js",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit",
+    "test": "vitest run",
+    "test:watch": "vitest"
+  },
+  "dependencies": {
+    "@fastify/cors": "^8.5.0",
+    "@fastify/websocket": "^8.3.0",
+    "@masterdashboard/shared": "workspace:*",
+    "better-sqlite3": "^9.4.0",
+    "dotenv": "^16.4.0",
+    "fastify": "^4.25.0",
+    "mysql2": "^3.16.3",
+    "node-pty": "^1.0.0",
+    "pg": "^8.18.0",
+    "pino": "^8.18.0",
+    "pino-pretty": "^10.3.0",
+    "playwright": "^1.41.0",
+    "simple-git": "^3.30.0",
+    "socket.io": "^4.8.3",
+    "ssh2": "^1.15.0",
+    "ws": "^8.16.0",
+    "zod": "^3.22.0"
+  },
+  "devDependencies": {
+    "@types/better-sqlite3": "^7.6.8",
+    "@types/node": "^20.11.0",
+    "@types/pg": "^8.16.0",
+    "@types/ssh2": "^1.15.0",
+    "@types/ws": "^8.5.10",
+    "@vitest/coverage-v8": "^1.6.1",
+    "eslint": "^8.56.0",
+    "tsup": "^8.0.0",
+    "tsx": "^4.7.0",
+    "typescript": "^5.3.0",
+    "vitest": "^1.2.0"
+  }
+}

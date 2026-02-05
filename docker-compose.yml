@@ -1,0 +1,90 @@
+version: '3.8'
+
+services:
+  # Backend server
+  server:
+    build:
+      context: .
+      dockerfile: Dockerfile.server
+      target: development
+    volumes:
+      - ./apps/server:/app/apps/server
+      - ./packages:/app/packages
+      - /app/node_modules
+      - /app/apps/server/node_modules
+    ports:
+      - "127.0.0.1:4050:4050"
+    environment:
+      - NODE_ENV=development
+      - PORT=4050
+      - CORS_ORIGIN=http://localhost:3050
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      redis:
+        condition: service_healthy
+    networks:
+      - masterdashboard
+    healthcheck:
+      test: ["CMD", "wget", "--spider", "-q", "http://localhost:4050/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 40s
+
+  # Frontend web app
+  web:
+    build:
+      context: .
+      dockerfile: Dockerfile.web
+      target: development
+    volumes:
+      - ./apps/web:/app/apps/web
+      - ./packages:/app/packages
+      - /app/node_modules
+      - /app/apps/web/node_modules
+      - /app/apps/web/.next
+    ports:
+      - "127.0.0.1:3050:3050"
+    environment:
+      - NODE_ENV=development
+      - PORT=3050
+      - NEXT_PUBLIC_API_URL=http://localhost:4050
+      - NEXT_PUBLIC_WS_URL=ws://localhost:4050
+    depends_on:
+      - server
+    networks:
+      - masterdashboard
+
+  # Redis for session management and caching
+  redis:
+    image: redis:7-alpine
+    ports:
+      - "127.0.0.1:6379:6379"
+    volumes:
+      - redis_data:/data
+    networks:
+      - masterdashboard
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    command: redis-server --appendonly yes
+
+  # Playwright browsers (for browser nodes)
+  playwright:
+    image: mcr.microsoft.com/playwright:v1.41.0-jammy
+    shm_size: 2gb
+    environment:
+      - DISPLAY=:99
+    networks:
+      - masterdashboard
+    profiles:
+      - browser
+
+networks:
+  masterdashboard:
+    driver: bridge
+
+volumes:
+  redis_data:

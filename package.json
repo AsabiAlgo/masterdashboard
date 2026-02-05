@@ -1,0 +1,59 @@
+{
+  "name": "masterdashboard",
+  "version": "0.1.0",
+  "private": true,
+  "description": "A persistent, web-based terminal orchestration platform. Manage multiple terminal sessions like tmux, but in a visual canvas.",
+  "author": "Arif Sait Birincioglu <https://github.com/AsabiAlgo>",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsabiAlgo/masterdashboard.git"
+  },
+  "homepage": "https://github.com/AsabiAlgo/masterdashboard#readme",
+  "bugs": {
+    "url": "https://github.com/AsabiAlgo/masterdashboard/issues"
+  },
+  "packageManager": "pnpm@8.14.0",
+  "engines": {
+    "node": ">=20.0.0"
+  },
+  "scripts": {
+    "dev": "turbo dev",
+    "build": "turbo build",
+    "start": "turbo start",
+    "lint": "turbo lint",
+    "test": "turbo test",
+    "test:e2e": "playwright test",
+    "test:e2e:ui": "playwright test --ui",
+    "test:e2e:headed": "playwright test --headed",
+    "clean": "turbo clean && rm -rf node_modules",
+    "typecheck": "turbo typecheck",
+    "docker:dev": "docker-compose up -d",
+    "docker:build": "docker-compose -f docker-compose.prod.yml build",
+    "docker:up": "docker-compose -f docker-compose.prod.yml up -d",
+    "docker:down": "docker-compose down",
+    "prepare": "husky",
+    "changeset": "changeset",
+    "version-packages": "changeset version",
+    "release": "pnpm build && changeset publish"
+  },
+  "devDependencies": {
+    "@changesets/cli": "^2.29.8",
+    "@playwright/test": "^1.58.1",
+    "@types/node": "^20.11.0",
+    "husky": "^9.0.0",
+    "lint-staged": "^15.2.0",
+    "prettier": "^3.2.0",
+    "turbo": "^1.11.0",
+    "typescript": "^5.3.0"
+  },
+  "lint-staged": {
+    "*.{ts,tsx,js,jsx}": [
+      "prettier --write",
+      "eslint --fix"
+    ],
+    "*.{json,md,yml}": [
+      "prettier --write"
+    ]
+  }
+}

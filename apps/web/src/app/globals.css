@@ -1,0 +1,529 @@
+@import 'xterm/css/xterm.css';
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ============================================
+   CSS Variables for Theme Support
+   ============================================ */
+
+:root {
+  /* Light theme colors */
+  --bg-primary: 248 250 252; /* slate-50 */
+  --bg-secondary: 241 245 249; /* slate-100 */
+  --bg-tertiary: 226 232 240; /* slate-200 */
+  --bg-canvas: 241 245 249; /* slate-100 */
+  --bg-node: 255 255 255; /* white */
+  --bg-node-header: 248 250 252; /* slate-50 */
+  --bg-input: 255 255 255;
+  --bg-hover: 241 245 249; /* slate-100 */
+
+  --text-primary: 15 23 42; /* slate-900 */
+  --text-secondary: 71 85 105; /* slate-500 */
+  --text-muted: 148 163 184; /* slate-400 */
+  --text-inverse: 248 250 252; /* slate-50 */
+
+  --border-primary: 203 213 225; /* slate-300 */
+  --border-secondary: 226 232 240; /* slate-200 */
+  --border-focus: 59 130 246; /* blue-500 */
+
+  --accent-primary: 59 130 246; /* blue-500 */
+  --accent-success: 34 197 94; /* green-500 */
+  --accent-warning: 234 179 8; /* yellow-500 */
+  --accent-error: 239 68 68; /* red-500 */
+  --accent-info: 99 102 241; /* indigo-500 */
+
+  /* Terminal colors (light theme) */
+  --terminal-bg: 248 250 252;
+  --terminal-text: 30 41 59;
+  --terminal-cursor: 59 130 246;
+  --terminal-selection: 191 219 254;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.05);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.1), 0 4px 6px -4px rgb(0 0 0 / 0.1);
+  --shadow-node: 0 4px 20px rgb(0 0 0 / 0.15);
+}
+
+.dark {
+  /* Dark theme colors */
+  --bg-primary: 15 23 42; /* slate-900 */
+  --bg-secondary: 30 41 59; /* slate-800 */
+  --bg-tertiary: 51 65 85; /* slate-700 */
+  --bg-canvas: 2 6 23; /* slate-950 */
+  --bg-node: 30 41 59; /* slate-800 */
+  --bg-node-header: 51 65 85; /* slate-700 */
+  --bg-input: 15 23 42; /* slate-900 */
+  --bg-hover: 51 65 85; /* slate-700 */
+
+  --text-primary: 248 250 252; /* slate-50 */
+  --text-secondary: 148 163 184; /* slate-400 */
+  --text-muted: 100 116 139; /* slate-500 */
+  --text-inverse: 15 23 42; /* slate-900 */
+
+  --border-primary: 51 65 85; /* slate-700 */
+  --border-secondary: 71 85 105; /* slate-600 */
+  --border-focus: 59 130 246; /* blue-500 */
+
+  --accent-primary: 59 130 246; /* blue-500 */
+  --accent-success: 34 197 94; /* green-500 */
+  --accent-warning: 234 179 8; /* yellow-500 */
+  --accent-error: 239 68 68; /* red-500 */
+  --accent-info: 129 140 248; /* indigo-400 */
+
+  /* Terminal colors (Tokyo Night theme) */
+  --terminal-bg: 26 27 38;
+  --terminal-text: 169 177 214;
+  --terminal-cursor: 192 202 245;
+  --terminal-selection: 51 70 124;
+
+  /* Shadow */
+  --shadow-sm: 0 1px 2px 0 rgb(0 0 0 / 0.3);
+  --shadow-md: 0 4px 6px -1px rgb(0 0 0 / 0.4), 0 2px 4px -2px rgb(0 0 0 / 0.3);
+  --shadow-lg: 0 10px 15px -3px rgb(0 0 0 / 0.4), 0 4px 6px -4px rgb(0 0 0 / 0.3);
+  --shadow-node: 0 4px 20px rgb(0 0 0 / 0.4);
+}
+
+/* ============================================
+   Custom Utility Classes using CSS Variables
+   ============================================ */
+
+@layer utilities {
+  /* Background utilities */
+  .bg-theme-primary {
+    background-color: rgb(var(--bg-primary));
+  }
+  .bg-theme-secondary {
+    background-color: rgb(var(--bg-secondary));
+  }
+  .bg-theme-tertiary {
+    background-color: rgb(var(--bg-tertiary));
+  }
+  .bg-theme-canvas {
+    background-color: rgb(var(--bg-canvas));
+  }
+  .bg-theme-node {
+    background-color: rgb(var(--bg-node));
+  }
+  .bg-theme-node-header {
+    background-color: rgb(var(--bg-node-header));
+  }
+  .bg-theme-input {
+    background-color: rgb(var(--bg-input));
+  }
+  .bg-theme-hover {
+    background-color: rgb(var(--bg-hover));
+  }
+
+  /* Text utilities */
+  .text-theme-primary {
+    color: rgb(var(--text-primary));
+  }
+  .text-theme-secondary {
+    color: rgb(var(--text-secondary));
+  }
+  .text-theme-muted {
+    color: rgb(var(--text-muted));
+  }
+  .text-theme-inverse {
+    color: rgb(var(--text-inverse));
+  }
+
+  /* Border utilities */
+  .border-theme-primary {
+    border-color: rgb(var(--border-primary));
+  }
+  .border-theme-secondary {
+    border-color: rgb(var(--border-secondary));
+  }
+  .border-theme-focus {
+    border-color: rgb(var(--border-focus));
+  }
+
+  /* Ring utilities */
+  .ring-theme-focus {
+    --tw-ring-color: rgb(var(--border-focus));
+  }
+
+  /* Accent utilities */
+  .text-accent-primary {
+    color: rgb(var(--accent-primary));
+  }
+  .text-accent-success {
+    color: rgb(var(--accent-success));
+  }
+  .text-accent-warning {
+    color: rgb(var(--accent-warning));
+  }
+  .text-accent-error {
+    color: rgb(var(--accent-error));
+  }
+
+  .bg-accent-primary {
+    background-color: rgb(var(--accent-primary));
+  }
+  .bg-accent-success {
+    background-color: rgb(var(--accent-success));
+  }
+  .bg-accent-warning {
+    background-color: rgb(var(--accent-warning));
+  }
+  .bg-accent-error {
+    background-color: rgb(var(--accent-error));
+  }
+}
+
+/* ============================================
+   Custom scrollbar
+   ============================================ */
+
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+::-webkit-scrollbar-thumb {
+  @apply rounded;
+  background: rgb(var(--border-primary));
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: rgb(var(--border-secondary));
+}
+
+.dark ::-webkit-scrollbar-thumb {
+  background: #334155;
+}
+
+.dark ::-webkit-scrollbar-thumb:hover {
+  background: #475569;
+}
+
+/* ============================================
+   React Flow custom styles
+   ============================================ */
+
+.react-flow__node {
+  @apply rounded-lg;
+  box-shadow: var(--shadow-node);
+}
+
+.react-flow__edge-path {
+  stroke: rgb(var(--border-primary));
+}
+
+.react-flow__edge-path:hover {
+  stroke: rgb(var(--accent-primary));
+}
+
+.react-flow__edge.selected .react-flow__edge-path {
+  stroke: rgb(var(--accent-primary));
+}
+
+.react-flow__controls {
+  @apply rounded-lg overflow-hidden;
+  background-color: rgb(var(--bg-node));
+  border: 1px solid rgb(var(--border-primary));
+}
+
+.react-flow__controls button {
+  background-color: rgb(var(--bg-node));
+  border-bottom: 1px solid rgb(var(--border-primary));
+  color: rgb(var(--text-secondary));
+}
+
+.react-flow__controls button:hover {
+  background-color: rgb(var(--bg-hover));
+}
+
+.react-flow__controls button:last-child {
+  border-bottom: none;
+}
+
+.react-flow__controls button svg {
+  @apply fill-current;
+}
+
+.react-flow__minimap {
+  @apply rounded-lg overflow-hidden;
+  background-color: rgb(var(--bg-node));
+  border: 1px solid rgb(var(--border-primary));
+}
+
+.react-flow__minimap-mask {
+  fill: rgba(var(--bg-canvas), 0.8);
+}
+
+.react-flow__attribution {
+  @apply hidden;
+}
+
+/* ============================================
+   Terminal styles
+   ============================================ */
+
+.terminal-container {
+  @apply rounded-lg overflow-hidden;
+  background-color: rgb(var(--terminal-bg));
+}
+
+.xterm {
+  @apply p-2;
+}
+
+.xterm-viewport {
+  background: transparent !important;
+}
+
+.xterm-screen {
+  background: transparent;
+}
+
+/* ============================================
+   Custom focus ring
+   ============================================ */
+
+.focus-ring {
+  @apply focus:outline-none focus:ring-2 focus:ring-offset-2;
+  --tw-ring-color: rgb(var(--accent-primary));
+  --tw-ring-offset-color: rgb(var(--bg-primary));
+}
+
+/* ============================================
+   Smooth transitions
+   ============================================ */
+
+.transition-default {
+  @apply transition-all duration-200 ease-in-out;
+}
+
+/* Theme transition for smooth switching */
+html.theme-transition,
+html.theme-transition *,
+html.theme-transition *:before,
+html.theme-transition *:after {
+  transition: background-color 0.3s ease, border-color 0.3s ease, color 0.15s ease !important;
+}
+
+/* ============================================
+   Node glow effects based on status
+   ============================================ */
+
+.node-glow-working {
+  box-shadow: 0 0 20px rgba(34, 197, 94, 0.3);
+}
+
+.node-glow-waiting {
+  box-shadow: 0 0 20px rgba(234, 179, 8, 0.3);
+}
+
+.node-glow-error {
+  box-shadow: 0 0 20px rgba(239, 68, 68, 0.3);
+}
+
+/* ============================================
+   Panel backdrop blur support
+   ============================================ */
+
+@supports (backdrop-filter: blur(8px)) {
+  .backdrop-blur-panel {
+    backdrop-filter: blur(8px);
+    background-color: rgba(var(--bg-primary), 0.8);
+  }
+}
+
+@supports not (backdrop-filter: blur(8px)) {
+  .backdrop-blur-panel {
+    background-color: rgb(var(--bg-primary));
+  }
+}
+
+/* ============================================
+   Drag cursor
+   ============================================ */
+
+.react-flow__node.dragging {
+  cursor: grabbing;
+}
+
+/* ============================================
+   Selection box
+   ============================================ */
+
+.react-flow__selection {
+  background-color: rgba(var(--accent-primary), 0.1);
+  border: 1px solid rgba(var(--accent-primary), 0.5);
+}
+
+/* ============================================
+   Connection line
+   ============================================ */
+
+.react-flow__connection-line {
+  stroke: rgb(var(--accent-primary));
+  stroke-width: 2;
+}
+
+/* ============================================
+   Handle hover effect
+   ============================================ */
+
+.react-flow__handle:hover {
+  @apply scale-125;
+  transition: transform 0.15s ease;
+}
+
+/* ============================================
+   Animations
+   ============================================ */
+
+@keyframes spin {
+  to {
+    transform: rotate(360deg);
+  }
+}
+
+.animate-spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes pulse {
+  0%,
+  100% {
+    opacity: 1;
+  }
+  50% {
+    opacity: 0.5;
+  }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+
+.animate-fade-in {
+  animation: fadeIn 0.2s ease-in-out;
+}
+
+@keyframes slideIn {
+  from {
+    transform: translateY(-10px);
+    opacity: 0;
+  }
+  to {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
+.animate-slide-in {
+  animation: slideIn 0.2s ease-out;
+}
+
+/* Reduced motion support */
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Disable animations via class (for settings) */
+.animations-disabled *,
+.animations-disabled *::before,
+.animations-disabled *::after {
+  animation-duration: 0ms !important;
+  animation-iteration-count: 1 !important;
+  transition-duration: 0ms !important;
+}
+
+/* ============================================
+   Settings Panel Styles
+   ============================================ */
+
+.settings-section {
+  @apply mb-6;
+}
+
+.settings-section-title {
+  @apply text-sm font-medium mb-3;
+  color: rgb(var(--text-secondary));
+}
+
+.settings-row {
+  @apply flex items-center justify-between py-2;
+}
+
+.settings-label {
+  @apply text-sm;
+  color: rgb(var(--text-primary));
+}
+
+.settings-input {
+  @apply px-3 py-1.5 rounded border text-sm;
+  background-color: rgb(var(--bg-input));
+  border-color: rgb(var(--border-primary));
+  color: rgb(var(--text-primary));
+}
+
+.settings-input:focus {
+  @apply outline-none ring-2;
+  --tw-ring-color: rgb(var(--accent-primary));
+  border-color: rgb(var(--accent-primary));
+}
+
+.settings-select {
+  @apply px-3 py-1.5 rounded border text-sm cursor-pointer;
+  background-color: rgb(var(--bg-input));
+  border-color: rgb(var(--border-primary));
+  color: rgb(var(--text-primary));
+}
+
+/* ============================================
+   Theme Toggle Button Styles
+   ============================================ */
+
+.theme-toggle-btn {
+  @apply flex items-center gap-2 px-3 py-2 rounded-lg border text-sm transition-colors;
+  background-color: rgb(var(--bg-secondary));
+  border-color: rgb(var(--border-primary));
+  color: rgb(var(--text-secondary));
+}
+
+.theme-toggle-btn:hover {
+  background-color: rgb(var(--bg-hover));
+}
+
+.theme-toggle-btn.active {
+  border-color: rgb(var(--accent-primary));
+  color: rgb(var(--accent-primary));
+}
+
+/* ============================================
+   Keyboard Shortcut Badge
+   ============================================ */
+
+.kbd {
+  @apply inline-flex items-center justify-center px-2 py-0.5 text-xs font-mono rounded;
+  background-color: rgb(var(--bg-tertiary));
+  color: rgb(var(--text-secondary));
+  border: 1px solid rgb(var(--border-primary));
+}

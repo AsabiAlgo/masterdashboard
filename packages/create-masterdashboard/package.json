@@ -1,0 +1,45 @@
+{
+  "name": "@asabialgo/create-masterdashboard",
+  "version": "0.1.0",
+  "description": "Create a new Master Dashboard project - a persistent, web-based terminal orchestration platform",
+  "license": "MIT",
+  "author": "Arif Sait Birincioglu <https://github.com/AsabiAlgo>",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/AsabiAlgo/masterdashboard.git",
+    "directory": "packages/create-masterdashboard"
+  },
+  "homepage": "https://github.com/AsabiAlgo/masterdashboard#readme",
+  "bugs": {
+    "url": "https://github.com/AsabiAlgo/masterdashboard/issues"
+  },
+  "type": "module",
+  "bin": {
+    "create-masterdashboard": "./dist/index.js"
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "dev": "tsc --watch",
+    "typecheck": "tsc --noEmit",
+    "clean": "rm -rf dist"
+  },
+  "dependencies": {
+    "giget": "^1.2.3",
+    "picocolors": "^1.1.1",
+    "prompts": "^2.4.2"
+  },
+  "devDependencies": {
+    "@types/prompts": "^2.4.9",
+    "@types/node": "^20.11.0",
+    "typescript": "^5.3.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  }
+}

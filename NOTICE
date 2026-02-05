@@ -1,0 +1,19 @@
+Master Dashboard
+Copyright (c) 2026 Arif Sait Birincioglu
+
+This project is licensed under the MIT License - see the LICENSE file for details.
+
+This project includes the following major open-source dependencies:
+
+- Next.js (MIT License) - https://nextjs.org/
+- React (MIT License) - https://reactjs.org/
+- React Flow (MIT License) - https://reactflow.dev/
+- xterm.js (MIT License) - https://xtermjs.org/
+- Fastify (MIT License) - https://fastify.dev/
+- node-pty (MIT License) - https://github.com/microsoft/node-pty
+- Socket.IO (MIT License) - https://socket.io/
+- Zustand (MIT License) - https://zustand-demo.pmnd.rs/
+- Playwright (Apache 2.0 License) - https://playwright.dev/
+- better-sqlite3 (MIT License) - https://github.com/WiseLibs/better-sqlite3
+- ssh2 (MIT License) - https://github.com/mscdex/ssh2
+- Turborepo (MIT License) - https://turbo.build/
