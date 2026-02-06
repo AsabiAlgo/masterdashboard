@@ -20,7 +20,7 @@ interface SessionStatsProps {
   projectId: string;
 }
 
-const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4000';
+const API_URL = process.env.NEXT_PUBLIC_API_URL ?? 'http://localhost:4050';
 
 export function SessionStats({ projectId }: SessionStatsProps) {
   const [stats, setStats] = useState<TmuxStats | null>(null);

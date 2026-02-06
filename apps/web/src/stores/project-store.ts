@@ -13,7 +13,7 @@ import type {
   ProjectSettings,
 } from '@masterdashboard/shared';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:3001';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4050';
 
 interface ProjectWithCounts extends Omit<Project, 'createdAt' | 'updatedAt'> {
   createdAt: string;
@@ -120,8 +120,12 @@ export const useProjectStore = create<ProjectState>()(
               isLoading: false,
             });
           } catch (error) {
+            const isNetworkError =
+              error instanceof TypeError && error.message === 'Failed to fetch';
             set({
-              error: error instanceof Error ? error.message : 'Failed to load projects',
+              error: isNetworkError
+                ? 'Cannot connect to server. Make sure the backend is running on ' + API_BASE
+                : error instanceof Error ? error.message : 'Failed to load projects',
               isLoading: false,
             });
           }

@@ -17,7 +17,7 @@ import {
   type NoteMode,
 } from '@masterdashboard/shared';
 
-const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4000';
+const API_BASE = process.env.NEXT_PUBLIC_API_URL || 'http://localhost:4050';
 
 interface NoteResponse {
   id: string;
