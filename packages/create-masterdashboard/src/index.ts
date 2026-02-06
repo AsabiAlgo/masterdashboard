@@ -76,10 +76,16 @@ function installDependencies(projectDir: string): boolean {
     console.log(pc.cyan('  Installing dependencies with pnpm...'))
     try {
       execSync('pnpm install', { cwd: projectDir, stdio: 'inherit' })
-      return true
     } catch {
       return false
     }
+    console.log(pc.cyan('  Building packages...'))
+    try {
+      execSync('pnpm build', { cwd: projectDir, stdio: 'inherit' })
+    } catch {
+      return false
+    }
+    return true
   }
 
   console.log(pc.yellow('  pnpm not found. Please install pnpm and run `pnpm install` manually.'))
