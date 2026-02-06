@@ -16,6 +16,9 @@ const FILES_TO_REMOVE = [
   'REQUIREMENTS.md',
   '.claude',
   'NOTICE',
+  '.npmrc',
+  '.changeset',
+  'docs/PUBLISHING.md',
 ]
 
 interface PackageJson {

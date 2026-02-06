@@ -1,6 +1,6 @@
 {
   "name": "@asabialgo/create-masterdashboard",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "Create a new Master Dashboard project - a persistent, web-based terminal orchestration platform",
   "license": "MIT",
   "author": "Arif Sait Birincioglu <https://github.com/AsabiAlgo>",
