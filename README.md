@@ -5,6 +5,8 @@
 [![Node.js](https://img.shields.io/badge/Node.js-20%2B-green.svg)](https://nodejs.org/)
 [![pnpm](https://img.shields.io/badge/pnpm-8%2B-orange.svg)](https://pnpm.io/)
 
+> **Platform:** macOS and Linux. Windows support is coming soon.
+
 A persistent, web-based terminal orchestration platform. Think **tmux meets a visual canvas** -- manage multiple terminal sessions, SSH connections, databases, file browsers, and more, all from a single browser window.
 
 ## Why I Built This
@@ -78,6 +80,7 @@ pnpm dev
 
 - **Node.js** 20+
 - **pnpm** 8+
+- **macOS or Linux** (Windows support coming soon)
 
 ### Option 1: Use the CLI (recommended)
 
@@ -138,9 +141,11 @@ cd apps/server && pnpm dev     # Backend only (port 4000)
 cd packages/shared && pnpm build  # Build shared types
 ```
 
+
 ## Security Notice
 
 Master Dashboard is designed for **local development use**. The server binds to `0.0.0.0` by default and does not include authentication. Do not expose it to untrusted networks without adding your own authentication layer.
+We will work on improving this.
 
 ## Contributing
 
