@@ -1,7 +1,7 @@
 # Base stage
 FROM node:20-alpine AS base
 RUN corepack enable && corepack prepare pnpm@8.14.0 --activate
-RUN apk add --no-cache wget
+RUN apk add --no-cache wget tmux bash openssh-client
 WORKDIR /app
 
 # Dependencies stage
@@ -42,7 +42,7 @@ RUN pnpm prune --prod
 
 # Production stage
 FROM node:20-alpine AS production
-RUN apk add --no-cache dumb-init wget
+RUN apk add --no-cache dumb-init wget tmux bash openssh-client
 
 WORKDIR /app
 ENV NODE_ENV=production

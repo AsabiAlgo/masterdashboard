@@ -5,7 +5,7 @@
 [![Node.js](https://img.shields.io/badge/Node.js-20%2B-green.svg)](https://nodejs.org/)
 [![pnpm](https://img.shields.io/badge/pnpm-8%2B-orange.svg)](https://pnpm.io/)
 
-> **Platform:** macOS and Linux. Windows support is coming soon.
+> **Platform:** macOS and Linux. Windows users can run via [WSL2](https://learn.microsoft.com/en-us/windows/wsl/install) or [Docker](https://www.docker.com/).
 
 A persistent, web-based terminal orchestration platform. Think **tmux meets a visual canvas** -- manage multiple terminal sessions, SSH connections, databases, file browsers, and more, all from a single browser window.
 
@@ -80,7 +80,7 @@ pnpm dev
 
 - **Node.js** 20+
 - **pnpm** 8+
-- **macOS or Linux** (Windows support coming soon)
+- **macOS or Linux** (Windows: use WSL2 or Docker)
 
 ### Option 1: Use the CLI (recommended)
 
