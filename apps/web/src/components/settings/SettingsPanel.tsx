@@ -13,13 +13,14 @@ import { AppearanceSettings } from './AppearanceSettings';
 import { TerminalSettings } from './TerminalSettings';
 import { KeyboardSettings } from './KeyboardSettings';
 import { EditorSettings } from './EditorSettings';
+import { NodeColorSettings } from './NodeColorSettings';
 
 interface SettingsPanelProps {
   isOpen: boolean;
   onClose: () => void;
 }
 
-type SettingsTab = 'appearance' | 'terminal' | 'keyboard' | 'editor';
+type SettingsTab = 'appearance' | 'terminal' | 'nodeColors' | 'keyboard' | 'editor';
 
 const TABS: { id: SettingsTab; label: string; icon: React.ReactNode }[] = [
   {
@@ -37,6 +38,15 @@ const TABS: { id: SettingsTab; label: string; icon: React.ReactNode }[] = [
     icon: (
       <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
         <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+      </svg>
+    ),
+  },
+  {
+    id: 'nodeColors',
+    label: 'Node Colors',
+    icon: (
+      <svg className="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M7 21a4 4 0 01-4-4V5a2 2 0 012-2h4a2 2 0 012 2v12a4 4 0 01-4 4zm0 0h12a2 2 0 002-2v-4a2 2 0 00-2-2h-2.343M11 7.343l1.657-1.657a2 2 0 012.828 0l2.829 2.829a2 2 0 010 2.828l-8.486 8.485M7 17h.01" />
       </svg>
     ),
   },
@@ -222,6 +232,11 @@ export function SettingsPanel({ isOpen, onClose }: SettingsPanelProps) {
             {activeTab === 'terminal' && (
               <div data-testid="terminal-settings">
                 <TerminalSettings />
+              </div>
+            )}
+            {activeTab === 'nodeColors' && (
+              <div data-testid="node-color-settings">
+                <NodeColorSettings />
               </div>
             )}
             {activeTab === 'keyboard' && (

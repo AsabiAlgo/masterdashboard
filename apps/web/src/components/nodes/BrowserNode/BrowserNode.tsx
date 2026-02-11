@@ -21,6 +21,7 @@ import { BrowserToolbar } from './BrowserToolbar';
 import { BrowserConfig } from './BrowserConfig';
 import { useBrowserSocket } from './hooks/useBrowserSocket';
 import { useCanvasStore } from '@/stores/canvas-store';
+import { useNodeColors, useShowResizeHandles } from '@/stores/settings-store';
 
 /**
  * Browser icon component
@@ -60,6 +61,8 @@ export const BrowserNode = memo(function BrowserNode({
   const [loading, setLoading] = useState(false);
 
   const { updateNodeData } = useCanvasStore();
+  const nodeColors = useNodeColors();
+  const showResizeHandles = useShowResizeHandles();
 
   // Browser socket management
   const {
@@ -198,15 +201,17 @@ export const BrowserNode = memo(function BrowserNode({
         minWidth={500}
         minHeight={350}
         isVisible={selected}
-        lineClassName="!border-blue-500"
-        handleClassName="!w-3 !h-3 !bg-blue-500 !border-blue-600"
+        lineClassName="!border-transparent"
+        handleClassName={showResizeHandles ? '' : '!w-0 !h-0 !border-0 !bg-transparent !min-w-0 !min-h-0'}
+        handleStyle={showResizeHandles ? undefined : { opacity: 0, width: 0, height: 0, border: 'none', pointerEvents: 'none' }}
       />
 
       <BaseNode
         id={id}
         title={displayTitle}
         icon={<BrowserIcon className="w-4 h-4" />}
-        headerColor="bg-blue-600"
+        headerColor={nodeColors.browser.header}
+        borderColor={nodeColors.browser.border}
         connected={connected}
         selected={selected}
       >

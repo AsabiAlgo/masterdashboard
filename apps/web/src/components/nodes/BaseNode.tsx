@@ -20,8 +20,10 @@ interface BaseNodeProps {
   title: string;
   /** Icon to display in the header */
   icon?: ReactNode;
-  /** Header background color class */
+  /** Header background color (CSS hex value) */
   headerColor?: string;
+  /** Border color (CSS hex value) */
+  borderColor?: string;
   /** Whether the node is connected to a session */
   connected?: boolean;
   /** Whether the node is selected */
@@ -41,7 +43,8 @@ export const BaseNode = memo(function BaseNode({
   children,
   title,
   icon,
-  headerColor = 'bg-slate-700',
+  headerColor = '#475569',
+  borderColor = '#334155',
   connected = false,
   selected,
   showInputHandle = true,
@@ -56,20 +59,17 @@ export const BaseNode = memo(function BaseNode({
 
   return (
     <div
-      className={`
-        h-full flex flex-col
-        rounded-lg overflow-hidden shadow-2xl
-        ${selected ? 'ring-2 ring-blue-500' : 'ring-1 ring-slate-700'}
-        bg-slate-900
-      `}
+      className="h-full flex flex-col rounded-lg overflow-hidden shadow-2xl bg-slate-900"
+      style={{
+        boxShadow: selected
+          ? `0 0 0 2px ${borderColor}`
+          : `0 0 0 1px ${borderColor}`,
+      }}
     >
       {/* Header - Draggable area */}
       <div
-        className={`
-          flex items-center justify-between px-3 py-2
-          ${headerColor}
-          cursor-move select-none
-        `}
+        className="flex items-center justify-between px-3 py-2 cursor-move select-none"
+        style={{ backgroundColor: headerColor }}
       >
         {/* Left side: Icon, Title, Status */}
         <div className="flex items-center gap-2 min-w-0">
