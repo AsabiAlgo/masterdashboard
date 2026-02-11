@@ -28,6 +28,24 @@ export type TerminalTheme =
   | 'github-dark';
 
 /**
+ * Node color configuration
+ */
+export type NodeType = 'terminal' | 'ssh' | 'browser';
+
+export interface NodeColorPair {
+  header: string;
+  border: string;
+}
+
+export type NodeColors = Record<NodeType, NodeColorPair>;
+
+export const DEFAULT_NODE_COLORS: NodeColors = {
+  terminal: { header: '#5b8a72', border: '#4a7a64' },
+  ssh: { header: '#b8936a', border: '#a8845c' },
+  browser: { header: '#6a8bb8', border: '#5c7ca8' },
+};
+
+/**
  * Keyboard shortcut definition
  */
 export interface KeyboardShortcut {
@@ -52,6 +70,10 @@ export interface SettingsState {
   showMinimap: boolean;
   animationsEnabled: boolean;
 
+  // Node Colors
+  nodeColors: NodeColors;
+  showResizeHandles: boolean;
+
   // Editor
   tabSize: number;
   wordWrap: boolean;
@@ -65,6 +87,10 @@ export interface SettingsState {
   // Actions - UI
   openSettingsPanel: () => void;
   closeSettingsPanel: () => void;
+
+  // Actions - Node Colors
+  setNodeColor: (nodeType: NodeType, colorType: 'header' | 'border', value: string) => void;
+  setShowResizeHandles: (show: boolean) => void;
 
   // Actions - Appearance
   setTheme: (theme: ThemeMode) => void;
@@ -164,6 +190,8 @@ const DEFAULT_SETTINGS: Omit<
   | 'isSettingsPanelOpen'
   | 'openSettingsPanel'
   | 'closeSettingsPanel'
+  | 'setNodeColor'
+  | 'setShowResizeHandles'
   | 'setTheme'
   | 'setTerminalTheme'
   | 'setFontSize'
@@ -182,6 +210,8 @@ const DEFAULT_SETTINGS: Omit<
 > = {
   theme: 'dark',
   terminalTheme: 'default',
+  nodeColors: { ...DEFAULT_NODE_COLORS },
+  showResizeHandles: false,
   fontSize: 14,
   fontFamily: 'JetBrains Mono, monospace',
   showMinimap: true,
@@ -226,6 +256,15 @@ export const useSettingsStore = create<SettingsState>()(
         // UI Actions
         openSettingsPanel: () => set({ isSettingsPanelOpen: true }),
         closeSettingsPanel: () => set({ isSettingsPanelOpen: false }),
+
+        // Node color actions
+        setNodeColor: (nodeType, colorType, value) => {
+          const nodeColors = { ...get().nodeColors };
+          nodeColors[nodeType] = { ...nodeColors[nodeType], [colorType]: value };
+          set({ nodeColors });
+        },
+
+        setShowResizeHandles: (showResizeHandles) => set({ showResizeHandles }),
 
         // Appearance actions
         setTheme: (theme) => {
@@ -273,6 +312,8 @@ export const useSettingsStore = create<SettingsState>()(
           const exportData = {
             theme: state.theme,
             terminalTheme: state.terminalTheme,
+            nodeColors: state.nodeColors,
+            showResizeHandles: state.showResizeHandles,
             fontSize: state.fontSize,
             fontFamily: state.fontFamily,
             showMinimap: state.showMinimap,
@@ -304,6 +345,8 @@ export const useSettingsStore = create<SettingsState>()(
         partialize: (state) => ({
           theme: state.theme,
           terminalTheme: state.terminalTheme,
+          nodeColors: state.nodeColors,
+          showResizeHandles: state.showResizeHandles,
           fontSize: state.fontSize,
           fontFamily: state.fontFamily,
           showMinimap: state.showMinimap,
@@ -336,3 +379,9 @@ export const useOpenSettingsPanel = () =>
   useSettingsStore((state) => state.openSettingsPanel);
 export const useCloseSettingsPanel = () =>
   useSettingsStore((state) => state.closeSettingsPanel);
+export const useNodeColors = () =>
+  useSettingsStore((state) => state.nodeColors);
+export const useSetNodeColor = () =>
+  useSettingsStore((state) => state.setNodeColor);
+export const useShowResizeHandles = () =>
+  useSettingsStore((state) => state.showResizeHandles);

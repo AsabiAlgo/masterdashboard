@@ -9,3 +9,4 @@ export { AppearanceSettings } from './AppearanceSettings';
 export { TerminalSettings } from './TerminalSettings';
 export { KeyboardSettings } from './KeyboardSettings';
 export { EditorSettings } from './EditorSettings';
+export { NodeColorSettings } from './NodeColorSettings';

@@ -22,6 +22,7 @@ import { SSHConnectModal } from './SSHConnectModal';
 import { useSSHSocket } from './hooks/useSSHSocket';
 import { useCanvasStore } from '@/stores/canvas-store';
 import { useTerminal } from '../TerminalNode/hooks/useTerminal';
+import { useNodeColors, useShowResizeHandles } from '@/stores/settings-store';
 
 /**
  * SSH icon component
@@ -115,6 +116,8 @@ export const SSHNode = memo(function SSHNode({
 
   const { updateNodeData } = useCanvasStore();
   const { settings } = useTerminal();
+  const nodeColors = useNodeColors();
+  const showResizeHandles = useShowResizeHandles();
 
   // SSH socket management
   const {
@@ -226,8 +229,9 @@ export const SSHNode = memo(function SSHNode({
         minWidth={400}
         minHeight={250}
         isVisible={selected}
-        lineClassName="!border-amber-500"
-        handleClassName="!w-3 !h-3 !bg-amber-500 !border-amber-600"
+        lineClassName="!border-transparent"
+        handleClassName={showResizeHandles ? '' : '!w-0 !h-0 !border-0 !bg-transparent !min-w-0 !min-h-0'}
+        handleStyle={showResizeHandles ? undefined : { opacity: 0, width: 0, height: 0, border: 'none', pointerEvents: 'none' }}
       />
 
       <StatusGlow status={data.activityStatus ?? TerminalActivityStatus.IDLE} className="w-full h-full">
@@ -235,7 +239,8 @@ export const SSHNode = memo(function SSHNode({
           id={id}
           title={title}
           icon={<SSHIcon className="w-4 h-4" />}
-          headerColor="bg-amber-600"
+          headerColor={nodeColors.ssh.header}
+          borderColor={nodeColors.ssh.border}
           connected={connected}
           selected={selected}
           statusIndicator={

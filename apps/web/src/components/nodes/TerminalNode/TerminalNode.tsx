@@ -24,6 +24,7 @@ import { StatusIndicator, StatusGlow } from './StatusIndicator';
 import { useTerminalSocket } from './hooks/useTerminalSocket';
 import { useTerminal } from './hooks/useTerminal';
 import { useCanvasStore } from '@/stores/canvas-store';
+import { useNodeColors, useShowResizeHandles } from '@/stores/settings-store';
 
 /**
  * Terminal icon component
@@ -64,6 +65,8 @@ export const TerminalNode = memo(function TerminalNode({
 
   const { updateNodeData } = useCanvasStore();
   const { settings, updateSettings } = useTerminal();
+  const nodeColors = useNodeColors();
+  const showResizeHandles = useShowResizeHandles();
 
   // Handle session expired - clear sessionId and show message
   // Set manualReconnectRequired so user must click to start new session
@@ -298,8 +301,9 @@ export const TerminalNode = memo(function TerminalNode({
         minWidth={400}
         minHeight={250}
         isVisible={selected}
-        lineClassName="!border-green-500"
-        handleClassName="!w-3 !h-3 !bg-green-500 !border-green-600"
+        lineClassName="!border-transparent"
+        handleClassName={showResizeHandles ? '' : '!w-0 !h-0 !border-0 !bg-transparent !min-w-0 !min-h-0'}
+        handleStyle={showResizeHandles ? undefined : { opacity: 0, width: 0, height: 0, border: 'none', pointerEvents: 'none' }}
       />
 
       <StatusGlow status={data.activityStatus} className="w-full h-full">
@@ -307,7 +311,8 @@ export const TerminalNode = memo(function TerminalNode({
           id={id}
           title={title}
           icon={<TerminalIcon className="w-4 h-4" />}
-          headerColor="bg-green-600"
+          headerColor={nodeColors.terminal.header}
+          borderColor={nodeColors.terminal.border}
           connected={connected}
           selected={selected}
           statusIndicator={
